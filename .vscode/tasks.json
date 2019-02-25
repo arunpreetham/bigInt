@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build proj",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "src/*.cpp",
+                "-o",
+                "bigint.exe",
+                "-I",
+                "inc/"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

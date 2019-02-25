@@ -1,0 +1,4 @@
+#define ESUCCESS 0
+#define EBADPARAM 1
+#define EMEM_ALLOC_FAILED 2
+#define EFAILED 3
