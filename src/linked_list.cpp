@@ -38,7 +38,7 @@ int printListRev(list_node *head)
 
 list_node* findTail(list_node *head)
 {
-    list_node *temp= NULL;
+    list_node *temp = NULL;
     while(head!=NULL)
     {
         temp = head;

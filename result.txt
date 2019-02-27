@@ -1,13 +1,13 @@
 Input 1: 
-9851
+9997
 Input 2: 
-399
+9993
 Addition Result: 
-2852
+09991
 Substract Result: 
-695
+4
 multiplyList Result: 
-1577877
+81726272819121
 Divide Result Quotient: 
 1
-Reminder:695
+Reminder:4

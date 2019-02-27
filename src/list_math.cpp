@@ -75,10 +75,10 @@ int compareIntList(list_node *operand1, list_node *operand2)
 
     if(list_len1 == list_len2)
     {
-        while(tail_operand1->data == tail_operand2->data)
+        while(tail_operand1 != NULL && tail_operand1->data == tail_operand2->data)
         {
-            tail_operand1 = operand1->prev;
-            tail_operand2 = operand2->prev;
+            tail_operand1 = tail_operand1->prev;
+            tail_operand2 = tail_operand2->prev;
         }
         if(tail_operand1->data > tail_operand2->data)
         {
