@@ -65,15 +65,43 @@ int allocMemForNode(list_node **node)
 
 int listLen(list_node *head)
 {
-    int list_len = 0;
-    if(NULL != head)
-        list_len++;
+    int list_len = 1;
+    if(NULL == head)
+        return 0;
     while(head->next != NULL )
     {
         list_len++;
         head = head->next;
     }
     return list_len;
+}
+
+int listLenRev(list_node *tail)
+{
+    int list_len = 1;
+    if(NULL == tail)
+        return 0;
+    while(tail->prev != NULL )
+    {
+        list_len++;
+        tail = tail->prev;
+    }
+    return list_len;
+}
+
+int stripFromStart(list_node **head)
+{
+    list_node *temp = NULL;
+    while(*head!=NULL)
+    {
+        if((*head)->data == 0)
+        {
+            removeFromStart(head, &temp);
+        }
+        else 
+            return ESUCCESS;
+    }
+    return ESUCCESS;
 }
 
 int deleteNode(list_node **node)

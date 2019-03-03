@@ -3,11 +3,37 @@ Input 1:
 Input 2: 
 9993
 Addition Result: 
-09991
+19990
 Substract Result: 
 4
 multiplyList Result: 
-81726272819121
+99900021
 Divide Result Quotient: 
 1
 Reminder:4
+Input 1: 
+1
+Input 2: 
+2
+Addition Result: 
+3
+Substract Result: 
+1
+multiplyList Result: 
+2
+Divide Result Quotient: 
+0
+Reminder:1
+Input 1: 
+2
+Input 2: 
+34
+Addition Result: 
+36
+Substract Result: 
+32
+multiplyList Result: 
+68
+Divide Result Quotient: 
+0
+Reminder:2

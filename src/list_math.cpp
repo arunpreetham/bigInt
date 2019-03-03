@@ -22,25 +22,10 @@ int dummy_node_count(list_node *head)
     return count;
 }
 
-int strip(list_node **head)
-{
-    list_node *temp = NULL;
-    while(*head!=NULL)
-    {
-        if((*head)->data == 0)
-        {
-            removeFromStart(head, &temp);
-        }
-        else 
-            return ESUCCESS;
-    }
-    return ESUCCESS;
-}
-
-int compareIntList(list_node *operand1, list_node *operand2)
+int compareRevIntList(list_node *operand1, list_node *operand2)
 {
     int list_len1 = 0, list_len2 = 0, null_node1 = 0,null_node2 = 0;
-    list_node *temp1 = operand1, *temp2 = operand2,*tail_operand1 = NULL, *tail_operand2 = NULL;
+    list_node *temp1 = operand1, *temp2 = operand2;
     cout<<__func__ <<":enter"<<endl;
     //Last node is the 10^n value so if the lists are of equal length then compare the last node.
     //error case
@@ -49,38 +34,25 @@ int compareIntList(list_node *operand1, list_node *operand2)
         cout<<__func__ <<"Null Parameters"<<endl;
         return 0;
     }
-
-    list_len1 = listLen(temp1);
-    null_node1 = dummy_node_count(temp1);
-    list_len2 = listLen(temp2);
-    null_node2 = dummy_node_count(temp2);
+    stripFromStart(&temp1);
+    stripFromStart(&temp2);
+    list_len1 = listLenRev(temp1);
+    list_len2 = listLenRev(temp2);
 
     //We need to remove the last zeros.
     cout<<__func__ <<"list_len1:"<<list_len1<<" list_len2:"<<list_len2<<endl;
-    cout<<__func__ <<"null_node1:"<<null_node1<<" null_node2:"<<null_node2<<endl;
-    while(null_node1!=0)
-    {
-        operand1 = operand1->next;
-        null_node1--;
-    } 
+
     printList(operand1);
-    while(null_node2!=0)
-    {
-        operand2 = operand2->next;
-        null_node2--;
-    } 
     printList(operand2);
-    tail_operand1 = findTail(operand1);
-    tail_operand2 = findTail(operand2);
 
     if(list_len1 == list_len2)
     {
-        while(tail_operand1 != NULL && tail_operand1->data == tail_operand2->data)
+        while(operand1 != NULL && operand1->data == operand2->data)
         {
-            tail_operand1 = tail_operand1->prev;
-            tail_operand2 = tail_operand2->prev;
+            operand1 = operand1->prev;
+            operand2 = operand2->prev;
         }
-        if(tail_operand1->data > tail_operand2->data)
+        if(operand1->data > operand2->data)
         {
             return 1;
         }    
@@ -101,10 +73,58 @@ int compareIntList(list_node *operand1, list_node *operand2)
     return 0;
 }
 
+int compareIntList(list_node *operand1, list_node *operand2)
+{
+    int list_len1 = 0, list_len2 = 0, null_node1 = 0,null_node2 = 0;
+    list_node *temp1 = operand1, *temp2 = operand2;
+    cout<<__func__ <<":enter"<<endl;
+    //Last node is the 10^n value so if the lists are of equal length then compare the last node.
+    //error case
+    if(NULL == operand1 || NULL == operand2)
+    {
+        cout<<__func__ <<"Null Parameters"<<endl;
+        return 0;
+    }
+    list_len1 = listLen(temp1);
+    list_len2 = listLen(temp2);
+
+    //We need to remove the last zeros.
+    cout<<__func__ <<"list_len1:"<<list_len1<<" list_len2:"<<list_len2<<endl;
+
+    printList(operand1);
+    printList(operand2);
+
+    if(list_len1 == list_len2)
+    {
+        while(operand1 != NULL && operand1->data == operand2->data)
+        {
+            operand1 = operand1->next;
+            operand2 = operand2->next;
+        }
+        if(operand1->data > operand2->data)
+        {
+            return 1;
+        }    
+        else
+        {
+            return 2;
+        }
+    }
+    else if(list_len1>list_len2)
+    {
+        return 1;
+    }
+    else
+    {
+        return 2;
+    }
+    cout<<__func__ <<":exit"<<endl;    
+    return 0;
+}
 
 int findBigSmall(list_node **Big, list_node **Small,list_node *operand1, list_node *operand2 )
 {
-    int compare_op = compareIntList(operand1,operand2);
+    int compare_op = compareRevIntList(operand1,operand2);
     cout<<__func__ <<"Compare_op"<<compare_op<<endl;
     //First we need to find the largest number and then sub it with the smallest. 
     if(1 == compare_op)
@@ -128,19 +148,24 @@ int addList(list_node *operand1, list_node *operand2, list_node **result)
 {
     list_node temp,*sum;
     int carry = 0;
-
+    operand1 = findTail(operand1);
+    operand2 = findTail(operand2);
     //Add both the operands.
     while(NULL != operand1 && NULL != operand2)
     {
         temp.data = operand1->data + operand2->data + carry;
+        cout<<"temp.data:"<<temp.data<<"\n";
         carry = (temp.data)/10;
         temp.data = (temp.data)%10;
+        cout<<"carry:"<<carry<<"\n";
+
         allocMemForNode(&sum);
         sum->data = temp.data;
         addAtStart(result,sum);
+        cout<<"sum:"<<sum->data<<"\n";
 
-        operand1 = operand1->next;
-        operand2 = operand2->next;
+        operand1 = operand1->prev;
+        operand2 = operand2->prev;
     }
 
     //Now its possible that atleast one is big. 
@@ -150,7 +175,7 @@ int addList(list_node *operand1, list_node *operand2, list_node **result)
         carry = 0;
         allocMemForNode(&sum);
         sum->data = temp.data;
-        operand1 = operand1->next;
+        operand1 = operand1->prev;
         addAtStart(result,sum);
     }
     else if(NULL != operand2)
@@ -160,9 +185,9 @@ int addList(list_node *operand1, list_node *operand2, list_node **result)
         allocMemForNode(&sum);
         sum->data = temp.data;
         addAtStart(result,sum);    
-        operand2 = operand2->next;    
+        operand2 = operand2->prev;    
     }
-
+    printList(*result);
     //New node is required.
     if(0!=carry)
     {
@@ -171,7 +196,7 @@ int addList(list_node *operand1, list_node *operand2, list_node **result)
         addAtStart(result,sum);
     }
     printList(*result);
-    ReverseList(result);
+
     return ESUCCESS;
 }
 
@@ -179,6 +204,10 @@ int addList(list_node *operand1, list_node *operand2, list_node **result)
 int subList(list_node *operand1, list_node *operand2, list_node **result)
 {
     list_node *Big = NULL, *Small = NULL;
+    
+    operand1 = findTail(operand1);
+    operand2 = findTail(operand2);
+    
     if(ESUCCESS != findBigSmall(&Big, &Small,operand1,operand2))
     {
         cout<<__func__ <<"findBigSmall failed!"<<endl;
@@ -206,9 +235,9 @@ int subList(list_node *operand1, list_node *operand2, list_node **result)
         allocMemForNode(&sub);
         sub->data = temp.data;
         addAtStart(result,sub);
-
-        Big = Big->next;
-        Small = Small->next;
+        
+        Big = Big->prev;
+        Small = Small->prev;
     }
     cout<<__func__ <<"Iter1 done"<<endl;
     //Now its possible that Big has more digits. 
@@ -218,13 +247,12 @@ int subList(list_node *operand1, list_node *operand2, list_node **result)
         borrow = 0;
         allocMemForNode(&sub);
         sub->data = temp.data;
-        Big = Big->next;
+        Big = Big->prev;
         addAtStart(result,sub);
     }
     cout<<__func__ <<"Before Print"<<endl;
+    stripFromStart(result);
     printList(*result);
-    strip(result);
-    ReverseList(result);
 
     return ESUCCESS;
 }
@@ -234,13 +262,16 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
     list_node *Big = NULL, *Small = NULL, temp, *Big_temp = NULL, *sum = NULL, *sum_temp = NULL;
     int carry = 0,small_index = 0,res_len = 0,idx = 0;
 
+    operand1 = findTail(operand1);
+    operand2 = findTail(operand2);
+
     if(ESUCCESS != findBigSmall(&Big, &Small,operand1,operand2))
     {
         cout<<__func__ <<"findBigSmall failed!"<<endl;
         return EFAILED;
     }
 
-    res_len = listLen(Big) + listLen(Small);
+    res_len = listLenRev(Big) + listLenRev(Small);
     cout<<__func__ <<"Resule_len="<<res_len<<endl;
 
     Big_temp = Big;
@@ -251,7 +282,7 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
         res_len--;
     }
 
-    sum = *result;
+    sum = findTail(*result);
     //create result of len Big + Small
     while(NULL != Small)
     {
@@ -260,40 +291,42 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
         while(idx < small_index)
         {
             idx++;
-            sum = sum->next;
+            sum = sum->prev;
         }
         while(NULL != Big)
         {
             temp.data = (Small->data * Big->data) + carry;
-            carry = (temp.data)/10;
-            temp.data = (temp.data)%10;
+
             sum->data = sum->data + temp.data;
             
-            sum = sum->next;
-            Big = Big->next;
+            carry = (sum->data)/10;
+            sum->data = (sum->data)%10;
+
+            sum = sum->prev;
+            Big = Big->prev;
         }
         cout<<"carry="<<carry<<"sum->data:"<<sum->data<<endl;
         while(carry>0)
         {
-            temp.data = carry;
-            carry = (temp.data)/10;
-            temp.data = (temp.data)%10;
-            sum->data = sum->data + temp.data;
-            sum = sum->next;
+            sum->data = sum->data + carry;
+
+            carry = (sum->data)/10;
+            sum->data = (sum->data)%10;
+
+            sum = sum->prev;
         }
         cout<<__func__ <<"Before Print"<<endl;
         printList(*result);
-        Small = Small->next;
+        Small = Small->prev;
         Big = Big_temp;    
-        sum = *result;
+        sum = findTail(*result);;
         small_index++;
     }
 
     //We need to add at the next place.
     cout<<__func__ <<"Before Print"<<endl;
-    ReverseList(result);
+    stripFromStart(result);
     printList(*result);
-    //printListRev(*result);
     return ESUCCESS;
 }
 

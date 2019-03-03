@@ -9,6 +9,8 @@ int printList(list_node *head);
 int printListRev(list_node *head);
 int allocMemForNode(list_node **node);
 int listLen(list_node *head);
+int stripFromStart(list_node **head);
+int listLenRev(list_node *tail);
 int deleteNode(list_node **node);
 int deleteList(list_node **head);
 int addNode( list_node **head, list_node *data, int position );
