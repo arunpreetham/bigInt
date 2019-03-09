@@ -1,3 +1,5 @@
+#ifndef LINKED_LIST
+#define LINKED_LIST
 typedef struct list_node
 {
     int data;
@@ -24,3 +26,8 @@ int removeFromStart( list_node **head, list_node **data );
 int ReverseList(list_node **head);
 int dupList(list_node *source,list_node **copy);
 list_node* findTail(list_node *head);
+list_node* listFromString(char *s);
+int printListNumber(list_node *head);
+int convert_ascii_to_digit(char c);
+
+#endif

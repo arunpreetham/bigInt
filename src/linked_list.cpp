@@ -1,5 +1,5 @@
 #include <iostream>
-#include <conio.h>
+// #include <conio.h>
 #include <error_code.h>
 #include <linked_list.h>
 
@@ -353,4 +353,31 @@ int dupList(list_node *source,list_node **copy)
     }
     cout<<"duplist exit"<<endl;  
     return ESUCCESS;  
+}
+
+list_node* listFromString(char *s)
+{
+    list_node *num = NULL;
+    list_node *t_data = NULL;
+    for(int i=0;i<strlen(s);i++)
+    {
+        t_data = NULL;
+        allocMemForNode(&t_data);
+        t_data->data = convert_ascii_to_digit(s[i]);
+        addAtEnd(&num,t_data);
+
+    }
+
+    return num;
+}
+
+int printListNumber(list_node *head)
+{
+    while(NULL != head)
+    {
+        cout<< head->data;
+        head = head->next;
+    }
+    cout<<endl;
+    return 1;
 }

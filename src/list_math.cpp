@@ -1,5 +1,5 @@
 #include <iostream>
-#include <conio.h>
+// #include <conio.h>
 #include <error_code.h>
 #include <linked_list.h>
 #include <fstream>
@@ -47,19 +47,20 @@ int compareRevIntList(list_node *operand1, list_node *operand2)
 
     if(list_len1 == list_len2)
     {
-        while(operand1 != NULL && operand1->data == operand2->data)
+        while(operand1->prev != NULL && operand1->data == operand2->data)
         {
             operand1 = operand1->prev;
             operand2 = operand2->prev;
+            if(operand1->data > operand2->data)
+            {
+                return 1;
+            }    
+            else if (operand1->data < operand2->data)
+            {
+                return 2;
+            }
         }
-        if(operand1->data > operand2->data)
-        {
-            return 1;
-        }    
-        else
-        {
-            return 2;
-        }
+        return 1; // both are identical, return first as greater
     }
     else if(list_len1>list_len2)
     {
@@ -96,19 +97,19 @@ int compareIntList(list_node *operand1, list_node *operand2)
 
     if(list_len1 == list_len2)
     {
-        while(operand1 != NULL && operand1->data == operand2->data)
+        while(operand1->next != NULL && operand1->data == operand2->data)
         {
             operand1 = operand1->next;
             operand2 = operand2->next;
+            if(operand1->data > operand2->data)
+            {
+                return 1;
+            }else if(operand1->data < operand2->data)
+            {
+                return 2;
+            }
         }
-        if(operand1->data > operand2->data)
-        {
-            return 1;
-        }    
-        else
-        {
-            return 2;
-        }
+        return 1; // both are identical, return first as greater
     }
     else if(list_len1>list_len2)
     {
@@ -315,7 +316,6 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
 
             sum = sum->prev;
         }
-        cout<<__func__ <<"Before Print"<<endl;
         printList(*result);
         Small = Small->prev;
         Big = Big_temp;    
@@ -324,7 +324,6 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
     }
 
     //We need to add at the next place.
-    cout<<__func__ <<"Before Print"<<endl;
     stripFromStart(result);
     printList(*result);
     return ESUCCESS;
@@ -353,20 +352,20 @@ int divideList(list_node *operand1c, list_node *operand2c, list_node **quotient,
         operand1 = temp_operand1;
 
         cout<<"Operand1:"<<endl;
-        printList(operand1);
+        printListNumber(operand1);
         
         cout<<"Quotient:"<<endl;
-        printList(*quotient);
+        printListNumber(*quotient);
         addList(*quotient,temp_1,&temp_result);
         
         cout<<"Temp1:"<<endl;
-        printList(temp_1);
+        printListNumber(temp_1);
 
         deleteList(quotient);
         *quotient = temp_result;
 
         cout<<"Quotient:"<<endl;
-        printList(*quotient);
+        printListNumber(*quotient);
 
         cout<<"compare_loop_exit"<<endl;
     }
