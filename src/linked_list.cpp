@@ -59,7 +59,7 @@ int allocMemForNode(list_node **node)
     (*node)->next = NULL; 
     (*node)->prev = NULL; 
     (*node)->data = 0;
-    cout<<__func__ << " :MemAlloc success! "<<endl; 
+    // cout<<__func__ << " :MemAlloc success! "<<endl; 
     return ESUCCESS; 
 }
 
@@ -164,7 +164,7 @@ int addNode( list_node **head, list_node *data, int position )
     }
     temp->prev = data;
 
-    cout<<__func__ << " Added at pos "<<position<<endl; 
+    //cout<<__func__ << " Added at pos "<<position<<endl; 
 
     return ESUCCESS;
 }
@@ -222,14 +222,14 @@ int removeNode( list_node **head, list_node **data, int position )
 
 int addAtEnd( list_node **head, list_node *data )
 {
-    cout<<__func__ << " enter "<<endl; 
+    // cout<<__func__ << " enter "<<endl; 
     //first node to be added
     if(NULL == *head)
     {
         *head = data;
         data->prev = NULL;
         data->next = NULL;
-        cout<<__func__ << " First node added "<<endl; 
+        // cout<<__func__ << " First node added "<<endl; 
         return ESUCCESS;
     }
     
@@ -244,7 +244,7 @@ int addAtEnd( list_node **head, list_node *data )
     data->prev = temp;
     data->next = NULL;
 
-    cout<<__func__ << " Added at the end! "<<endl; 
+    // cout<<__func__ << " Added at the end! "<<endl; 
     return ESUCCESS;
 }
 
@@ -259,7 +259,7 @@ int addAtStart( list_node **head, list_node *data )
     //else its the first node to be added.
 
     *head = data;
-    cout<<__func__ << " Added at start! "<<endl; 
+    // cout<<__func__ << " Added at start! "<<endl; 
     return ESUCCESS;
 }
 
@@ -288,7 +288,7 @@ int removeFromEnd( list_node **head, list_node **data )
         *head = NULL;
     }
     
-    cout<<__func__ << " Removed from end "<<endl; 
+    // cout<<__func__ << " Removed from end "<<endl; 
     return ESUCCESS;
 }
 
@@ -296,14 +296,14 @@ int removeFromStart( list_node **head, list_node **data )
 {
     if(*head == NULL)
     {
-        cout<<__func__ << " Remove failed! Null Head"<<endl;
+        // cout<<__func__ << " Remove failed! Null Head"<<endl;
         return EBADPARAM; 
     }
 
     *data = *head;
     *head = (*head)->next;
     (*head)->prev = NULL;
-    cout<<__func__ << " Removed at start "<<endl; 
+    // cout<<__func__ << " Removed at start "<<endl; 
     return ESUCCESS;
 }
 
@@ -333,7 +333,7 @@ int dupList(list_node *source,list_node **copy)
 {
     list_node *temp = NULL,*head = NULL;
     bool is_first = true;
-    cout<<"duplist enter"<<endl;
+    // cout<<"duplist enter"<<endl;
     if(NULL == source)
     {
         return EBADPARAM;
@@ -351,7 +351,7 @@ int dupList(list_node *source,list_node **copy)
             is_first = false;
         }
     }
-    cout<<"duplist exit"<<endl;  
+    //    cout<<"duplist exit"<<endl;  
     return ESUCCESS;  
 }
 
@@ -371,7 +371,7 @@ list_node* listFromString(char *s)
     return num;
 }
 
-int printListNumber(list_node *head)
+void printListNumber(list_node *head)
 {
     while(NULL != head)
     {
@@ -379,5 +379,4 @@ int printListNumber(list_node *head)
         head = head->next;
     }
     cout<<endl;
-    return 1;
 }

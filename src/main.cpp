@@ -1,8 +1,8 @@
 #include <iostream>
-#include <conio.h>
 #include <error_code.h>
 #include <linked_list.h>
 #include <list_math.h>
+#include <blum_blum_shub.h>
 #include <fstream>
 
 using namespace std;
@@ -14,6 +14,7 @@ int convert_ascii_to_digit(char digit)
 
 int main()
 {
+
     std::ifstream fin1,fin2;
     std::ofstream fout;
     char digit_c;
@@ -96,8 +97,8 @@ int main()
         }
         deleteList(&result);
 
-        printList(input1);
-        printList(input2);
+        printListNumber(input1);
+        printListNumber(input2);
         //Substract
         subList(input1,input2, &result);
         fout<<"Substract Result: "<<endl;
@@ -111,8 +112,8 @@ int main()
             fout<<endl;
         }
         deleteList(&result);
-        printList(input1);
-        printList(input2);
+        printListNumber(input1);
+        printListNumber(input2);
         cout<<"Input before multiply";
         //multiplyList
         multiplyList(input1,input2, &result);
@@ -157,9 +158,20 @@ int main()
     }
 
     fout.close();
-
     fin1.close();
-    fin2.close();
-    getch();
+    fin2.close(); 
+    list_node *p, *q, *seed, *prod, *result1=NULL;
+    p = listFromString("181");
+    q = listFromString("191");
+    seed = listFromString("193");
+
+    BBS b1(p, q, seed);
+    for(int i=0;i<10;i++)
+    {
+    result1 = b1.next_rand();
+    cout<<"Next:";
+    printListNumber(result1);
+    result1 = NULL;
+    }
     return ESUCCESS;
 }
