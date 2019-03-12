@@ -1,4 +1,17 @@
 Input 1: 
+550
+Input 2: 
+77
+Addition Result: 
+627
+Substract Result: 
+473
+multiplyList Result: 
+42350
+Divide Result Quotient: 
+7
+Reminder:11
+Input 1: 
 1012
 Input 2: 
 43
