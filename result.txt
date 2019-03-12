@@ -1,4 +1,17 @@
 Input 1: 
+1012
+Input 2: 
+43
+Addition Result: 
+055
+Substract Result: 
+969
+multiplyList Result: 
+43516
+Divide Result Quotient: 
+23
+Reminder:23
+Input 1: 
 9997
 Input 2: 
 9993
@@ -37,3 +50,29 @@ multiplyList Result:
 Divide Result Quotient: 
 0
 Reminder:2
+Input 1: 
+770
+Input 2: 
+43
+Addition Result: 
+813
+Substract Result: 
+727
+multiplyList Result: 
+33110
+Divide Result Quotient: 
+17
+Reminder:39
+Input 1: 
+82
+Input 2: 
+43
+Addition Result: 
+125
+Substract Result: 
+39
+multiplyList Result: 
+3526
+Divide Result Quotient: 
+1
+Reminder:39

@@ -22,57 +22,6 @@ int dummy_node_count(list_node *head)
     return count;
 }
 
-int compareRevIntList(list_node *operand1, list_node *operand2)
-{
-    int list_len1 = 0, list_len2 = 0, null_node1 = 0,null_node2 = 0;
-    list_node *temp1 = operand1, *temp2 = operand2;
-    cout<<__func__ <<":enter"<<endl;
-    //Last node is the 10^n value so if the lists are of equal length then compare the last node.
-    //error case
-    if(NULL == operand1 || NULL == operand2)
-    {
-        cout<<__func__ <<"Null Parameters"<<endl;
-        return 0;
-    }
-    stripFromStart(&temp1);
-    stripFromStart(&temp2);
-    list_len1 = listLenRev(temp1);
-    list_len2 = listLenRev(temp2);
-
-    //We need to remove the last zeros.
-    cout<<__func__ <<"list_len1:"<<list_len1<<" list_len2:"<<list_len2<<endl;
-
-    printList(operand1);
-    printList(operand2);
-
-    if(list_len1 == list_len2)
-    {
-        while(operand1 != NULL && operand1->data == operand2->data)
-        {
-            operand1 = operand1->prev;
-            operand2 = operand2->prev;
-        }
-        if(operand1->data > operand2->data)
-        {
-            return 1;
-        }    
-        else
-        {
-            return 2;
-        }
-    }
-    else if(list_len1>list_len2)
-    {
-        return 1;
-    }
-    else
-    {
-        return 2;
-    }
-    cout<<__func__ <<":exit"<<endl;    
-    return 0;
-}
-
 int compareIntList(list_node *operand1, list_node *operand2)
 {
     int list_len1 = 0, list_len2 = 0, null_node1 = 0,null_node2 = 0;
@@ -124,7 +73,7 @@ int compareIntList(list_node *operand1, list_node *operand2)
 
 int findBigSmall(list_node **Big, list_node **Small,list_node *operand1, list_node *operand2 )
 {
-    int compare_op = compareRevIntList(operand1,operand2);
+    int compare_op = compareIntList(operand1,operand2);
     cout<<__func__ <<"Compare_op"<<compare_op<<endl;
     //First we need to find the largest number and then sub it with the smallest. 
     if(1 == compare_op)
@@ -205,20 +154,21 @@ int subList(list_node *operand1, list_node *operand2, list_node **result)
 {
     list_node *Big = NULL, *Small = NULL;
     
-    operand1 = findTail(operand1);
-    operand2 = findTail(operand2);
-    
     if(ESUCCESS != findBigSmall(&Big, &Small,operand1,operand2))
     {
         cout<<__func__ <<"findBigSmall failed!"<<endl;
         return EFAILED;
     }
-    
+
+    //  start using rev of the list
+    Big = findTail(Big);
+    Small = findTail(Small);
+
     //Now we need to do Big - small
     int borrow = 0;
     list_node temp,*sub;
 
-    //Add both the operands.
+    //Sub both the operands.
     while(NULL != Big && NULL != Small)
     {
         if(Big->data < (Small->data + borrow))
@@ -243,8 +193,17 @@ int subList(list_node *operand1, list_node *operand2, list_node **result)
     //Now its possible that Big has more digits. 
     while(NULL != Big)
     {
-        temp.data = Big->data - borrow;
-        borrow = 0;
+        if(Big->data < borrow)
+        {
+            temp.data = 10 + Big->data - borrow;
+            borrow = 1;
+        }
+        else
+        {
+            temp.data = Big->data - borrow;
+            borrow = 0;
+        }
+
         allocMemForNode(&sub);
         sub->data = temp.data;
         Big = Big->prev;
@@ -262,14 +221,14 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
     list_node *Big = NULL, *Small = NULL, temp, *Big_temp = NULL, *sum = NULL, *sum_temp = NULL;
     int carry = 0,small_index = 0,res_len = 0,idx = 0;
 
-    operand1 = findTail(operand1);
-    operand2 = findTail(operand2);
-
     if(ESUCCESS != findBigSmall(&Big, &Small,operand1,operand2))
     {
         cout<<__func__ <<"findBigSmall failed!"<<endl;
         return EFAILED;
     }
+
+    Big = findTail(Big);
+    Small = findTail(Small);
 
     res_len = listLenRev(Big) + listLenRev(Small);
     cout<<__func__ <<"Resule_len="<<res_len<<endl;
@@ -348,6 +307,7 @@ int divideList(list_node *operand1c, list_node *operand2c, list_node **quotient,
     while(1 == compareIntList(operand1,operand2))
     {
         cout<<"compare_loop_enter"<<endl;
+        temp_operand1 = NULL;
         subList(operand1,operand2,&temp_operand1);
         deleteList(&operand1);
         operand1 = temp_operand1;
@@ -355,8 +315,9 @@ int divideList(list_node *operand1c, list_node *operand2c, list_node **quotient,
         cout<<"Operand1:"<<endl;
         printList(operand1);
         
-        cout<<"Quotient:"<<endl;
-        printList(*quotient);
+        //cout<<"Quotient:"<<endl;
+        //printList(*quotient);
+        temp_result = NULL;
         addList(*quotient,temp_1,&temp_result);
         
         cout<<"Temp1:"<<endl;

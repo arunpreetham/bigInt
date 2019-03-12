@@ -4,7 +4,7 @@
 #include <linked_list.h>
 
 using namespace std;
-
+#define NULL 0x0
 int printList(list_node *head)
 {
     while( NULL != head)
@@ -92,7 +92,7 @@ int listLenRev(list_node *tail)
 int stripFromStart(list_node **head)
 {
     list_node *temp = NULL;
-    while(*head!=NULL)
+    while((*head)!=NULL)
     {
         if((*head)->data == 0)
         {
@@ -294,7 +294,7 @@ int removeFromEnd( list_node **head, list_node **data )
 
 int removeFromStart( list_node **head, list_node **data )
 {
-    if(*head == NULL)
+    if((*head) == NULL)
     {
         cout<<__func__ << " Remove failed! Null Head"<<endl;
         return EBADPARAM; 
