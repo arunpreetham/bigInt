@@ -7,39 +7,39 @@ using namespace std;
 
 int printList(list_node *head)
 {
-    while( NULL != head)
+    while (NULL != head)
     {
-        cout<<head->data<<"->";
+        cout << head->data << "->";
         head = head->next;
     }
-    cout<<"NULL"<<endl;
+    cout << "NULL" << endl;
     return ESUCCESS;
 }
 
 int printListRev(list_node *head)
 {
     list_node *prev = NULL;
-    while( NULL != head )
+    while (NULL != head)
     {
         //find the last node.
         prev = head;
         head = head->next;
     }
-    
-    while( NULL != prev )
+
+    while (NULL != prev)
     {
-        cout<<prev->data<<"->";
+        cout << prev->data << "->";
         prev = prev->prev;
     }
 
-    cout<<"NULL"<<endl;
+    cout << "NULL" << endl;
     return ESUCCESS;
 }
 
-list_node* findTail(list_node *head)
+list_node *findTail(list_node *head)
 {
     list_node *temp = NULL;
-    while(head!=NULL)
+    while (head != NULL)
     {
         temp = head;
         head = head->next;
@@ -50,25 +50,25 @@ list_node* findTail(list_node *head)
 int allocMemForNode(list_node **node)
 {
 
-    *node = (list_node*) malloc(sizeof(list_node));
-    if(NULL == *node)
+    *node = (list_node *)malloc(sizeof(list_node));
+    if (NULL == *node)
     {
-        cout<<__func__ << " :Mem Alloc Failed "<<endl; 
+        cout << __func__ << " :Mem Alloc Failed " << endl;
         return EMEM_ALLOC_FAILED;
     }
-    (*node)->next = NULL; 
-    (*node)->prev = NULL; 
+    (*node)->next = NULL;
+    (*node)->prev = NULL;
     (*node)->data = 0;
-    // cout<<__func__ << " :MemAlloc success! "<<endl; 
-    return ESUCCESS; 
+    // cout<<__func__ << " :MemAlloc success! "<<endl;
+    return ESUCCESS;
 }
 
 int listLen(list_node *head)
 {
     int list_len = 1;
-    if(NULL == head)
+    if (NULL == head)
         return 0;
-    while(head->next != NULL )
+    while (head->next != NULL)
     {
         list_len++;
         head = head->next;
@@ -79,9 +79,9 @@ int listLen(list_node *head)
 int listLenRev(list_node *tail)
 {
     int list_len = 1;
-    if(NULL == tail)
+    if (NULL == tail)
         return 0;
-    while(tail->prev != NULL )
+    while (tail->prev != NULL)
     {
         list_len++;
         tail = tail->prev;
@@ -92,13 +92,13 @@ int listLenRev(list_node *tail)
 int stripFromStart(list_node **head)
 {
     list_node *temp = NULL;
-    while(*head!=NULL)
+    while (*head != NULL)
     {
-        if((*head)->data == 0)
+        if ((*head)->data == 0 && (*head)->next != NULL)
         {
             removeFromStart(head, &temp);
         }
-        else 
+        else
             return ESUCCESS;
     }
     return ESUCCESS;
@@ -116,7 +116,7 @@ int deleteNode(list_node **node)
 int deleteList(list_node **head)
 {
     list_node *temp;
-    while((*head)!= NULL)
+    while ((*head) != NULL)
     {
         temp = (*head)->next;
         deleteNode(head);
@@ -126,27 +126,27 @@ int deleteList(list_node **head)
     return ESUCCESS;
 }
 
-int addNode( list_node **head, list_node *data, int position )
+int addNode(list_node **head, list_node *data, int position)
 {
     //first node to be added
-    if(NULL == *head)
+    if (NULL == *head)
     {
-        if(position != 0) //postion must be 0.
+        if (position != 0) //postion must be 0.
         {
-            cout<<__func__ << " position != 0 "<<endl; 
+            cout << __func__ << " position != 0 " << endl;
             return EBADPARAM;
         }
         *head = data;
         data->next = NULL;
         data->prev = NULL;
-        cout<<__func__ << " Added at pos 0 "<<endl; 
+        cout << __func__ << " Added at pos 0 " << endl;
         return ESUCCESS;
     }
-    
+
     list_node *temp = *head;
     int32_t t_pos = 0;
 
-    while(temp->next != NULL && t_pos != position)
+    while (temp->next != NULL && t_pos != position)
     {
         t_pos++;
         temp = temp->next;
@@ -154,7 +154,7 @@ int addNode( list_node **head, list_node *data, int position )
 
     data->next = temp;
     data->prev = temp->prev;
-    if(NULL != temp->prev)
+    if (NULL != temp->prev)
     {
         temp->prev->next = data;
     }
@@ -164,42 +164,42 @@ int addNode( list_node **head, list_node *data, int position )
     }
     temp->prev = data;
 
-    //cout<<__func__ << " Added at pos "<<position<<endl; 
+    //cout<<__func__ << " Added at pos "<<position<<endl;
 
     return ESUCCESS;
 }
 
-int removeNode( list_node **head, list_node **data, int position )
+int removeNode(list_node **head, list_node **data, int position)
 {
-    //first node, should have atleast one. 
-    if(NULL == *head)
+    //first node, should have atleast one.
+    if (NULL == *head)
     {
-        cout<<__func__ << " Head NULL "<<endl; 
+        cout << __func__ << " Head NULL " << endl;
         return EBADPARAM;
     }
-    
+
     list_node *temp = *head;
     int32_t t_pos = 0;
 
-    while(temp->next != NULL && t_pos<position)
+    while (temp->next != NULL && t_pos < position)
     {
         t_pos++;
-        if(t_pos == position)
+        if (t_pos == position)
             break;
         temp = temp->next;
     }
     //list length is less than position
-    if(temp->next == NULL && t_pos < position)
+    if (temp->next == NULL && t_pos < position)
     {
-        cout<<__func__ << " List length is less than position! "<<endl; 
+        cout << __func__ << " List length is less than position! " << endl;
         return EBADPARAM;
     }
     *data = temp;
     temp = temp->next;
 
     *data = temp;
-    
-    if(NULL != temp->prev)
+
+    if (NULL != temp->prev)
     {
         temp->prev->next = temp->next;
     }
@@ -209,33 +209,33 @@ int removeNode( list_node **head, list_node **data, int position )
         *head = temp->next;
     }
 
-    if(NULL != temp->next)
+    if (NULL != temp->next)
     {
         temp->next->prev = temp->prev;
         //if this is the head node then prev will be null.
     }
 
-    cout<<__func__ << " Removed from pos "<<position<<endl; 
-    
+    cout << __func__ << " Removed from pos " << position << endl;
+
     return ESUCCESS;
 }
 
-int addAtEnd( list_node **head, list_node *data )
+int addAtEnd(list_node **head, list_node *data)
 {
-    // cout<<__func__ << " enter "<<endl; 
+    // cout<<__func__ << " enter "<<endl;
     //first node to be added
-    if(NULL == *head)
+    if (NULL == *head)
     {
         *head = data;
         data->prev = NULL;
         data->next = NULL;
-        // cout<<__func__ << " First node added "<<endl; 
+        // cout<<__func__ << " First node added "<<endl;
         return ESUCCESS;
     }
-    
+
     list_node *temp = *head;
 
-    while(temp->next != NULL)
+    while (temp->next != NULL)
     {
         temp = temp->next;
     }
@@ -244,139 +244,139 @@ int addAtEnd( list_node **head, list_node *data )
     data->prev = temp;
     data->next = NULL;
 
-    // cout<<__func__ << " Added at the end! "<<endl; 
+    // cout<<__func__ << " Added at the end! "<<endl;
     return ESUCCESS;
 }
 
-int addAtStart( list_node **head, list_node *data )
+int addAtStart(list_node **head, list_node *data)
 {
     //first node to be added
     data->next = *head;
     data->prev = NULL;
 
-    if(NULL != (*head))
+    if (NULL != (*head))
         (*head)->prev = data;
     //else its the first node to be added.
 
     *head = data;
-    // cout<<__func__ << " Added at start! "<<endl; 
+    // cout<<__func__ << " Added at start! "<<endl;
     return ESUCCESS;
 }
 
-int removeFromEnd( list_node **head, list_node **data )
+int removeFromEnd(list_node **head, list_node **data)
 {
-    if(*head == NULL)
+    if (*head == NULL)
     {
-        cout<<__func__ << " Remove failed! Null Head "<<endl;
-        return EBADPARAM; 
+        cout << __func__ << " Remove failed! Null Head " << endl;
+        return EBADPARAM;
     }
     list_node *temp = *head;
 
-    while(temp->next != NULL)
+    while (temp->next != NULL)
     {
         temp = temp->next;
     }
 
     *data = temp;
-    if(NULL != temp->prev)
+    if (NULL != temp->prev)
     {
         temp->prev->next = NULL;
     }
     else
     {
-        //There is only one node update head to NULL. 
+        //There is only one node update head to NULL.
         *head = NULL;
     }
-    
-    // cout<<__func__ << " Removed from end "<<endl; 
+
+    // cout<<__func__ << " Removed from end "<<endl;
     return ESUCCESS;
 }
 
-int removeFromStart( list_node **head, list_node **data )
+int removeFromStart(list_node **head, list_node **data)
 {
-    if(*head == NULL)
+    if (*head == NULL)
     {
         // cout<<__func__ << " Remove failed! Null Head"<<endl;
-        return EBADPARAM; 
+        return EBADPARAM;
     }
 
     *data = *head;
     *head = (*head)->next;
     (*head)->prev = NULL;
-    // cout<<__func__ << " Removed at start "<<endl; 
+    // cout<<__func__ << " Removed at start "<<endl;
     return ESUCCESS;
 }
 
 int ReverseList(list_node **head)
 {
-    list_node *temp = NULL,*curr = NULL;
-    if(*head == NULL)
+    list_node *temp = NULL, *curr = NULL;
+    if (*head == NULL)
         return EBADPARAM;
 
     curr = *head;
-    while(NULL != curr)
+    while (NULL != curr)
     {
         //curr->next->prev
-        temp = curr->prev; 
+        temp = curr->prev;
         curr->prev = curr->next;
         curr->next = temp;
         curr = curr->prev;
     }
-    if(temp != NULL)
+    if (temp != NULL)
     {
         *head = temp->prev;
     }
     return ESUCCESS;
 }
 
-int dupList(list_node *source,list_node **copy)
+int dupList(list_node *source, list_node **copy)
 {
-    list_node *temp = NULL,*head = NULL;
+    list_node *temp = NULL, *head = NULL;
     bool is_first = true;
     // cout<<"duplist enter"<<endl;
-    if(NULL == source)
+    if (NULL == source)
     {
         return EBADPARAM;
     }
 
-    while(NULL != source)
+    while (NULL != source)
     {
         allocMemForNode(&temp);
         temp->data = source->data;
         addAtEnd(&head, temp);
         source = source->next;
-        if(is_first)
+        if (is_first)
         {
             *copy = head;
             is_first = false;
         }
     }
-    //    cout<<"duplist exit"<<endl;  
-    return ESUCCESS;  
+    //    cout<<"duplist exit"<<endl;
+    return ESUCCESS;
 }
 
-list_node* listFromString(char *s)
+list_node *listFromString(char *s)
 {
     list_node *num = NULL;
     list_node *t_data = NULL;
-    for(int i=0;i<strlen(s);i++)
+    for (int i = 0; i < strlen(s); i++)
     {
         t_data = NULL;
         allocMemForNode(&t_data);
         t_data->data = convert_ascii_to_digit(s[i]);
-        addAtEnd(&num,t_data);
-
+        addAtEnd(&num, t_data);
     }
-
     return num;
 }
 
 void printListNumber(list_node *head)
 {
-    while(NULL != head)
+    list_node *temp;
+    temp = head;
+    while (NULL != temp)
     {
-        cout<< head->data;
-        head = head->next;
+        cout << temp->data;
+        temp = temp->next;
     }
-    cout<<endl;
+    cout << endl;
 }

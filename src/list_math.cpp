@@ -44,8 +44,8 @@ int compareRevIntList(list_node *operand1, list_node *operand2)
     //We need to remove the last zeros.
     cout<<__func__ <<"list_len1:"<<list_len1<<" list_len2:"<<list_len2<<endl;
 
-    printListNumber(operand1);
-    printListNumber(operand2);
+    //printListNumber(operand1);
+    //printListNumber(operand2);
 
     if(list_len1 == list_len2)
     {
@@ -86,15 +86,15 @@ int compareIntList(list_node *operand1, list_node *operand2)
     if(NULL == operand1 || NULL == operand2)
     {
         cout<<__func__ <<"Null Parameters"<<endl;
-        return 0;
+        return -9999;
     }
     list_len1 = listLen(temp1);
     list_len2 = listLen(temp2);
 
     //We need to remove the last zeros.
     //cout<<__func__ <<"list_len1:"<<"\t"<<list_len1<<" list_len2:"<<list_len2<<endl;
-    printListNumber(operand1);
-    printListNumber(operand2);
+    //printListNumber(operand1);
+    //printListNumber(operand2);
 
     if(list_len1 == list_len2)
     {
@@ -108,9 +108,9 @@ int compareIntList(list_node *operand1, list_node *operand2)
                 return 1;
         }else if(operand1->data < operand2->data)
         {
-                return 2;
+                return -1;
         }
-        return 1; // both are identical, return first as greater
+        return 0; // both are identical, return first as greater
     }
     else if(list_len1>list_len2)
     {
@@ -118,24 +118,26 @@ int compareIntList(list_node *operand1, list_node *operand2)
     }
     else
     {
-        return 2;
+        return -1;
     }
     cout<<__func__ <<":exit"<<endl;    
-    return 0;
+    return -99999;
 }
 
 int findBigSmall(list_node **Big, list_node **Small,list_node *operand1, list_node *operand2 )
 {
 
     int compare_op = compareIntList(operand1,operand2);
-    // cout<<__func__ <<"Compare_op"<<compare_op<<endl;
+    printListNumber(operand1);
+    printListNumber(operand2);
+    cout<<__func__ <<"Compare_op:::"<<compare_op<<endl;
     //First we need to find the largest number and then sub it with the smallest. 
-    if(1 == compare_op)
+    if(compare_op >= 0)
     {
         *Big = operand1;
         *Small = operand2;
     }
-    else if(2 == compare_op)
+    else if(compare_op == -1)
     {
         *Big = operand2;
         *Small = operand1;
@@ -166,7 +168,7 @@ int addList(list_node *operand1, list_node *operand2, list_node **result)
         allocMemForNode(&sum);
         sum->data = temp.data;
         addAtStart(result,sum);
-        cout<<"sum:"<<sum->data<<"\n";
+        //cout<<"sum:"<<sum->data<<"\n";
 
         operand1 = operand1->prev;
         operand2 = operand2->prev;
@@ -199,7 +201,7 @@ int addList(list_node *operand1, list_node *operand2, list_node **result)
         sum->data = carry;
         addAtStart(result,sum);
     }
-    printListNumber(*result);
+    //printListNumber(*result);
 
     return ESUCCESS;
 }
@@ -241,7 +243,7 @@ int subList(list_node *operand1, list_node *operand2, list_node **result)
         Big = Big->prev;
         Small = Small->prev;
     }
-    cout<<__func__ <<"Iter1 done"<<endl;
+    //cout<<__func__ <<"Iter1 done"<<endl;
     //Now its possible that Big has more digits. 1012 77 
     while(NULL != Big)
     {
@@ -261,10 +263,17 @@ int subList(list_node *operand1, list_node *operand2, list_node **result)
         Big = Big->prev; 
         addAtStart(result,sub);
     }
-    cout<<__func__ <<"Before Print"<<endl;
-    stripFromStart(result);
+    //cout<<__func__ <<"Before Print"<<endl;
     printListNumber(*result);
+   
+    stripFromStart(result);
+    list_node *zero;
 
+    if (result == NULL)
+        {
+            zero->data = 0;
+            addAtStart(result, zero);
+        }
     return ESUCCESS;
 }
 
@@ -316,7 +325,7 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
             sum = sum->prev;
             Big = Big->prev;
         }
-        cout<<"carry="<<carry<<"sum->data:"<<sum->data<<endl;
+        // cout<<"carry="<<carry<<"sum->data:"<<sum->data<<endl;
         while(carry>0)
         {
             sum->data = sum->data + carry;
@@ -326,7 +335,7 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
 
             sum = sum->prev;
         }
-        printListNumber(*result);
+        //printListNumber(*result);
         Small = Small->prev;
         Big = Big_temp;    
         sum = findTail(*result);;
@@ -335,7 +344,7 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
 
     //We need to add at the next place.
     stripFromStart(result);
-    printListNumber(*result);
+    //printListNumber(*result);
     return ESUCCESS;
 }
 
@@ -353,28 +362,39 @@ int divideList(list_node *operand1c, list_node *operand2c, list_node **quotient,
     list_node *temp_1;
     allocMemForNode(&temp_1);
     temp_1->data = 1;
-    while(1 == compareIntList(operand1,operand2))
+
+    while(compareIntList(operand1,operand2) >=0)
     {
-        //cout<<"compare_loop_enter"<<endl;
+        cout<<"compare_loop_enter"<<endl;
+        temp_operand1 = NULL;
+        cout<<"Sub Started"<<endl;
         subList(operand1,operand2,&temp_operand1);
+        cout<<"Sub Ended"<<endl;
+
         deleteList(&operand1);
         operand1 = temp_operand1;
-        //cout<<"New Operand1:"<<endl;
-        printListNumber(operand1);        
+
+        cout<<"Operand1:"<<endl;
+        printList(operand1);
+        
         //cout<<"Quotient:"<<endl;
-        //printListNumber(*quotient);
+        //printList(*quotient);
+        temp_result = NULL;
         addList(*quotient,temp_1,&temp_result);
-        //cout<<"Temp1:"<<endl;
-        //printListNumber(temp_1);
+        
+        cout<<"Temp1:"<<endl;
+        printList(temp_1);
+
         deleteList(quotient);
         *quotient = temp_result;
-        //cout<<"Quotient Now:"<<endl;
-        //printListNumber(*quotient);
-        temp_operand1 = NULL;
-        temp_result = NULL;
-        //cout<<"compare_loop_exit"<<endl;
-        
+
+        cout<<"Quotient:"<<endl;
+        printList(*quotient);
+        cout<<"compare_loop_exit"<<endl;
     }
+    cout<< "this "<<endl;
     dupList(operand1, reminder);
+    cout<<"Operand1:"<<endl;
+    printList(operand1);
     return ESUCCESS;
 }

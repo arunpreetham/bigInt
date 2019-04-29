@@ -8,3 +8,6 @@ int divideList(list_node *operand1, list_node *operand2, list_node **quotient, l
 
 int compareRevIntList(list_node *operand1, list_node *operand2);
 int compareIntList(list_node *operand1, list_node *operand2);
+
+
+int gcd(list_node *operand1, list_node *operand2, list_node **result);

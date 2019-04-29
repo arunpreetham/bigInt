@@ -1,9 +1,11 @@
 #include <iostream>
+#include <fstream>
 #include <error_code.h>
 #include <linked_list.h>
 #include <list_math.h>
 #include <blum_blum_shub.h>
-#include <fstream>
+#include<rsa.h>
+
 
 using namespace std;
 
@@ -153,25 +155,52 @@ int main()
         }
         deleteList(&quotient);
         deleteList(&reminder);
-        deleteList(&input1);
-        deleteList(&input2);
+        //deleteList(&input1);
+        //deleteList(&input2);
     }
 
     fout.close();
     fin1.close();
     fin2.close(); 
-    list_node *p, *q, *seed, *prod, *result1=NULL;
-    p = listFromString("181");
-    q = listFromString("191");
-    seed = listFromString("193");
+    /*
+    //BBS Driver Code
 
+    list_node *p, *q, *d=NULL, *r=NULL;
+    listFromString("55", &p);
+    listFromString("5", &q);
+    cout<<"this is test:"<<endl;
+    divideList(p, q, &d, &r);
+    printListNumber(d);
+    printListNumber(r);
+    list_node *p, *q, *seed, *prod, *result1=NULL;
+    p = listFromString("11");
+    q = listFromString("19");
+    seed = listFromString("3");
     BBS b1(p, q, seed);
-    for(int i=0;i<10;i++)
+    for(int i=0;i<5;i++)
     {
     result1 = b1.next_rand();
     cout<<"Next:";
     printListNumber(result1);
     result1 = NULL;
     }
+    */
+
+    /*
+    //GCD Driver Code
+    list_node *r1, *p, *q;
+    p = listFromString("1110");
+    q = listFromString("111");
+
+    cout<<"Compute GCD"<<endl;
+    gcd(p, q, &r1);
+    cout <<"GCD"<<endl;
+    printListNumber(r1);
+    */
+   
+    list_node *p, *q;
+    p = listFromString("11");
+    q = listFromString("19");
+    RSA rsa_algo(p,q);
     return ESUCCESS;
 }
