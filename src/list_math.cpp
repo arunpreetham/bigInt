@@ -398,3 +398,33 @@ int divideList(list_node *operand1c, list_node *operand2c, list_node **quotient,
     printList(operand1);
     return ESUCCESS;
 }
+
+int gcd(list_node *operand1, list_node *operand2, list_node **result)
+{
+    list_node *one = listFromString("1");
+    list_node *zero = listFromString("0");
+    list_node *dummy, *temp;
+    dummy = NULL;
+    temp = NULL;
+    while(1){
+        divideList(operand1, operand2, &dummy, &temp);
+        if (compareIntList(temp, zero)==0)
+            {
+                *result=operand2;
+                return ESUCCESS;
+            }
+        dupList(operand2, &operand1);
+        dupList(temp, &operand2);
+    }
+    
+    /*
+    while (1) 
+    { 
+        temp = a%h; 
+        if (temp == 0) 
+          return h; 
+        a = h; 
+        h = temp; 
+    } 
+    */
+}

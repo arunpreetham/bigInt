@@ -186,21 +186,22 @@ int main()
     }
     */
 
-    /*
+    
     //GCD Driver Code
     list_node *r1, *p, *q;
-    p = listFromString("1110");
-    q = listFromString("111");
+    p = listFromString("550");
+    q = listFromString("50");
 
     cout<<"Compute GCD"<<endl;
     gcd(p, q, &r1);
     cout <<"GCD"<<endl;
     printListNumber(r1);
-    */
-   
+    
+    /*   
     list_node *p, *q;
     p = listFromString("11");
     q = listFromString("19");
     RSA rsa_algo(p,q);
     return ESUCCESS;
+    */
 }
