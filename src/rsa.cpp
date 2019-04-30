@@ -24,6 +24,7 @@ RSA::RSA(list_node *p_local, list_node *q_local)
     one = listFromString("1");
     allocMemForNode(&n);
     allocMemForNode(&phi);
+
     //Calculate N
 
     multiplyList(p_local,q_local, &n);
@@ -32,14 +33,13 @@ RSA::RSA(list_node *p_local, list_node *q_local)
     subList(p,one, &p_minus_1);
     subList(q,one, &q_minus_1);
     multiplyList(p_minus_1, q_minus_1, &phi);
-
-    cout <<"Initialized RSA with Params (p,q,n,phi):"<<endl;
+    cout <<"Initialized RSA with Params (p,q,n,phi):";
     printListNumber(p);
     printListNumber(q);
     printListNumber(n);
     printListNumber(phi);
 
-    list_node * e;
+    list_node * e, *d;
     e = listFromString("2");
     list_node *temp;
     list_node *temp_e;
@@ -57,32 +57,43 @@ RSA::RSA(list_node *p_local, list_node *q_local)
             dupList(e, &temp_e);
             deleteList(&e);
             addList(temp_e,one,&e);
-            cout<<"Current E"<<endl;
+            cout<<"Current E:";
             printListNumber(e);
         }
     }
-    /*
-   // First part of public key: 
-    double n = p*q; 
-  
-    // Finding other part of public key. 
-    // e stands for encrypt 
-    double e = 2; 
-    double phi = (p-1)*(q-1); 
-    while (e < phi) 
-    { 
-        // e must be co-prime to phi and 
-        // smaller than phi. 
-        if (gcd(e, phi)==1) 
-            break; 
-        else
-            e++; 
-    } 
-  
-    // Private key (d stands for decrypt) 
-    // choosing d such that it satisfies 
-    // d*e = 1 + k * totient 
-    int k = 2;  // A constant value 
-    double d = (1 + (k*phi))/e; 
-        */
+    cout <<"E found calculate D"<<endl;
+    cout<<"E value is :";
+    printListNumber(e);
+    list_node *k;
+    list_node *k_times_phi;
+    list_node *k_times_phi_plus_1;
+    list_node *dummy;
+    k = NULL;
+    k_times_phi = NULL;
+    k_times_phi_plus_1 = NULL;
+    dummy = NULL;
+    k = listFromString("2");  // A constant value 
+    multiplyList(k, phi, &k_times_phi);
+    cout <<"Computed ktimesphi";
+    printListNumber(k_times_phi);
+    addList(k_times_phi, one, &k_times_phi_plus_1);
+    cout <<"Computed ktimesphiplusone";
+    
+    printListNumber(k_times_phi_plus_1);    
+    
+    cout<<"hereiam"<<endl;
+    allocMemForNode(&d);
+    allocMemForNode(&dummy);
+
+    divideList(k_times_phi_plus_1,e,&d,&dummy);
+    
+    cout << "D and E values are:"<<endl;
+    printListNumber(d);
+    printListNumber(e);
+    //https://www.geeksforgeeks.org/rsa-algorithm-cryptography/
 }
+
+list_node * RSA::Encrypt(list_node *plain){
+    
+}
+//list_node * RSA::Decrypt(list_node *cipher)

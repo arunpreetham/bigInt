@@ -16,7 +16,7 @@ int convert_ascii_to_digit(char digit)
 
 int main()
 {
-
+    
     std::ifstream fin1,fin2;
     std::ofstream fout;
     char digit_c;
@@ -162,6 +162,9 @@ int main()
     fout.close();
     fin1.close();
     fin2.close(); 
+    //End main driver code
+    
+
     /*
     //BBS Driver Code
 
@@ -186,7 +189,7 @@ int main()
     }
     */
 
-    
+    /*
     //GCD Driver Code
     list_node *r1, *p, *q;
     p = listFromString("550");
@@ -197,11 +200,17 @@ int main()
     cout <<"GCD"<<endl;
     printListNumber(r1);
     
-    /*   
-    list_node *p, *q;
-    p = listFromString("11");
-    q = listFromString("19");
+    */   
+   /* RSA driver code
+    list_node *p, *q,*r,*s;
+    p = listFromString("3");
+    q = listFromString("11");
     RSA rsa_algo(p,q);
-    return ESUCCESS;
+    //divideList(p,q,&r, &s);
+    //printListNumber(r);
+    //printListNumber(s);
     */
+    return ESUCCESS;
+    
+    
 }

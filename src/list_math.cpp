@@ -177,21 +177,27 @@ int addList(list_node *operand1, list_node *operand2, list_node **result)
     //Now its possible that atleast one is big. 
     if(NULL != operand1)
     {
+        while(NULL != operand1)
+        {
         temp.data = operand1->data + carry;
         carry = 0;
         allocMemForNode(&sum);
         sum->data = temp.data;
         operand1 = operand1->prev;
         addAtStart(result,sum);
+        }
     }
     else if(NULL != operand2)
     {
+        while(NULL != operand2)
+        {
         temp.data = operand2->data + carry;
         carry = 0;
         allocMemForNode(&sum);
         sum->data = temp.data;
         addAtStart(result,sum);    
-        operand2 = operand2->prev;    
+        operand2 = operand2->prev;  
+        }  
     }
     //printListNumber(*result);
     //New node is required.
@@ -351,45 +357,50 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
 int divideList(list_node *operand1c, list_node *operand2c, list_node **quotient, list_node **reminder)
 {
     int compare_op = 0;
-    list_node *sum = NULL,*result_temp = NULL, *temp_result = NULL, *temp_operand1 = NULL,*operand1 =NULL, *operand2 = NULL;
+    list_node *sum=NULL,*result_temp = NULL, *temp_result = NULL, *temp_operand1 = NULL,*operand1 =NULL, *operand2 = NULL;
     cout<<__func__<<":Entry"<<endl;
+    cout<<"AllotMemSum"<<endl;
+
     allocMemForNode(&sum);
     sum->data = 0;
     addAtStart(quotient,sum);
+    cout<<"Creating copies of operands"<<endl;
+    cout<<"Operand1"<<endl;
     dupList(operand1c, &operand1);
+    cout<<"Operand2"<<endl;
     dupList(operand2c, &operand2);
 
     list_node *temp_1;
     allocMemForNode(&temp_1);
     temp_1->data = 1;
-
+    cout<<"Entering the while loop";
     while(compareIntList(operand1,operand2) >=0)
     {
         cout<<"compare_loop_enter"<<endl;
         temp_operand1 = NULL;
-        cout<<"Sub Started"<<endl;
         subList(operand1,operand2,&temp_operand1);
-        cout<<"Sub Ended"<<endl;
-
         deleteList(&operand1);
         operand1 = temp_operand1;
 
         cout<<"Operand1:"<<endl;
-        printList(operand1);
+        printListNumber(operand1);
         
         //cout<<"Quotient:"<<endl;
-        //printList(*quotient);
+        //printListNumber(*quotient);
         temp_result = NULL;
+        //deleteList(&temp_result);
         addList(*quotient,temp_1,&temp_result);
         
         cout<<"Temp1:"<<endl;
-        printList(temp_1);
+        printListNumber(temp_1);
 
-        deleteList(quotient);
+        //deleteList(quotient);
+        stripFromStart(&temp_result);
+
         *quotient = temp_result;
-
+        //dupList(temp_result, quotient);
         cout<<"Quotient:"<<endl;
-        printList(*quotient);
+        printListNumber(*quotient);
         cout<<"compare_loop_exit"<<endl;
     }
     cout<< "this "<<endl;
