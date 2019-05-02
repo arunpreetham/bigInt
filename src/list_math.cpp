@@ -439,3 +439,46 @@ int gcd(list_node *operand1, list_node *operand2, list_node **result)
     } 
     */
 }
+
+int exp(list_node *base, list_node* exp, list_node **result){
+    list_node *one = listFromString("1");
+    list_node *zero = listFromString("0");
+    list_node *temp;
+    temp = NULL;
+    printListNumber(zero);
+    printListNumber(one);
+    printListNumber(base);
+    printListNumber(exp);
+
+    if(compareIntList(exp, one)==0)
+        {
+            dupList(base, result);
+            return 0;
+        }
+    if(compareIntList(exp, zero)==0)
+    {
+            dupList(one, result);
+            return 0;
+    }
+    cout<<"Did not returned"<<endl;
+    dupList(base, result);
+    //printListNumber(*result);
+    while(compareIntList(exp, one)>0){
+        cout<<"while iteration:"<<endl;
+        allocMemForNode(&temp);
+        cout<<"Current result";
+        printListNumber(*result);
+        multiplyList(base, *result, &temp);
+        //cout<<"new temp";
+        //printListNumber(temp);
+        *result = NULL;
+        //allocMemForNode(&temp);
+        dupList(temp, result);
+        //printListNumber(*result);
+        temp = NULL;
+        subList(exp, one, &temp);
+        exp=NULL;
+        dupList(temp, &exp);
+    }
+    return 0;
+}
