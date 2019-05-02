@@ -16,7 +16,7 @@ int convert_ascii_to_digit(char digit)
 
 int main()
 {
-    
+    /*
     std::ifstream fin1,fin2;
     std::ofstream fout;
     char digit_c;
@@ -164,7 +164,7 @@ int main()
     fin2.close(); 
     //End main driver code
     
-
+    */
     /*
     //BBS Driver Code
 
@@ -200,17 +200,37 @@ int main()
     cout <<"GCD"<<endl;
     printListNumber(r1);
     
-    */   
-   /* RSA driver code
+    */ 
+   /*
+   // exp driver code
+
     list_node *p, *q,*r,*s;
-    p = listFromString("3");
-    q = listFromString("11");
-    RSA rsa_algo(p,q);
-    //divideList(p,q,&r, &s);
-    //printListNumber(r);
-    //printListNumber(s);
+    p = listFromString("12");
+    q = listFromString("7");
+    exp(p,q,&r);
+    printListNumber(r);
     */
+     
+   //RSA driver code
+    list_node *p, *q,*mp, *mc, *mpr,*t;
+    mc = NULL;
+    mpr = NULL;
+    allocMemForNode(&mc);
+    allocMemForNode(&mpr);
+    p = listFromString("3");
+    q = listFromString("7");
+    mp = listFromString("12");
+    t = listFromString("62");
+    RSA rsa_algo(p,q);
+    cout<<"rsa:Encrypting"<<endl;
+    rsa_algo.Encrypt(mp, &mc);
+    cout<<"rsa:Original Message";
+    printListNumber(mp);
+    cout<<"rsa:Cipher";
+    printListNumber(mc);
+    cout<<"rsa:Decrypting"<<endl;
+    rsa_algo.Decrypt(mc, &mpr);
+    cout<<"rsa:Recovered Plain Message";
+    printListNumber(mpr);
     return ESUCCESS;
-    
-    
 }
