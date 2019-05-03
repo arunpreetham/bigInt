@@ -33,11 +33,7 @@ list_node * BBS::next_rand()
     list_node *sqr_i = NULL;
     list_node *current_copy = NULL;
     dupList(current, &current_copy);
-    //cout << __FILE__<<":"<< __func__<< ":::Next Random: \t"<<endl;
     multiplyList(current, current_copy , &sqr_i);
-    //cout << __FILE__<< __func__<< "Product:"<<endl;
-    //printListNumber(sqr_i);
-    //printListNumber(m);
     divideList(sqr_i, m, &q, &r);
     current = NULL;
     dupList(r, &current);    

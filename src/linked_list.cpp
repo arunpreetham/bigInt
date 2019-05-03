@@ -139,7 +139,7 @@ int addNode(list_node **head, list_node *data, int position)
         *head = data;
         data->next = NULL;
         data->prev = NULL;
-        cout << __func__ << " Added at pos 0 " << endl;
+        //cout << __func__ << " Added at pos 0 " << endl;
         return ESUCCESS;
     }
 
@@ -355,7 +355,7 @@ int dupList(list_node *source, list_node **copy)
     return ESUCCESS;
 }
 
-list_node *listFromString(char *s)
+list_node * listFromString(char *s)
 {
     list_node *num = NULL;
     list_node *t_data = NULL;

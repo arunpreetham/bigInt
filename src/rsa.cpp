@@ -33,14 +33,10 @@ RSA::RSA(list_node *p_local, list_node *q_local)
     subList(p,one, &p_minus_1);
     subList(q,one, &q_minus_1);
     multiplyList(p_minus_1, q_minus_1, &phi);
-    cout <<"Initialized RSA with Params (p,q,n,phi):";
-    cout<<"rsa:";
+    cout <<endl<<"Initialized RSA with Params (p,q,n,phi):"<<endl;
     printListNumber(p);
-    cout<<"rsa:";
     printListNumber(q);
-    cout<<"rsa:";
     printListNumber(n);
-    cout<<"rsa:";
     printListNumber(phi);
 
     list_node * e, *d;
@@ -53,16 +49,12 @@ RSA::RSA(list_node *p_local, list_node *q_local)
         gcd(e, phi, &temp);
         if (compareIntList(temp, one)==0)
         {
-            cout<<"Co prime found"<<endl; 
             break; 
         }
         else{
-            cout<<"Checking once again"<<endl;
             dupList(e, &temp_e);
             deleteList(&e);
             addList(temp_e,one,&e);
-            cout<<"rsa:Current E:";
-            printListNumber(e);
         }
     }
     cout <<"rsa:E found calculate D"<<endl;
@@ -78,23 +70,16 @@ RSA::RSA(list_node *p_local, list_node *q_local)
     dummy = NULL;
     k = listFromString("2");  // A constant value 
     multiplyList(k, phi, &k_times_phi);
-    cout <<"rsa:Computed ktimesphi";
-    printListNumber(k_times_phi);
     addList(k_times_phi, one, &k_times_phi_plus_1);
-    cout <<"rsa:Computed ktimesphiplusone";
-    
-    printListNumber(k_times_phi_plus_1);    
-    
-    cout<<"rsa:hereiam"<<endl;
     allocMemForNode(&d);
     allocMemForNode(&dummy);
 
     divideList(k_times_phi_plus_1,e,&d,&dummy);
     
     cout << "rsa:D and E values are:"<<endl;
-    cout <<"rsa:D";
+    cout <<"rsa:D ->";
     printListNumber(d);
-    cout <<"rsa:E";
+    cout <<"rsa:E ->";
     printListNumber(e);
     this->p = p;
     this->q = q;
@@ -104,27 +89,21 @@ RSA::RSA(list_node *p_local, list_node *q_local)
     this->e = e;
 }
 
-list_node * RSA::Encrypt(list_node *plain, list_node **cipher_text){
+int RSA::Encrypt(list_node *plain, list_node **cipher_text){
     list_node *cipher;
     cipher = NULL;
     list_node *temp;
     temp = NULL;
     list_node *dummy;
     dummy = NULL;
-    cout<<"rsa:Plain";
-    printListNumber(plain);
     exp(plain,e,&temp);
-    cout<<"rsa:message to the power e";
-    printListNumber(temp);
-    cout<<"rsa:e";
-    printListNumber(e);  
     divideList(temp,n,&dummy,&cipher);
     *cipher_text = cipher;
-    //cout<<"Cipher";
-    //printListNumber(cipher);
+    return ESUCCESS;
+
 }
 
-list_node * RSA::Decrypt(list_node *cipher, list_node **plain_text)
+int RSA::Decrypt(list_node *cipher, list_node **plain_text)
 {
     list_node *plain;
     plain = NULL;
@@ -132,12 +111,8 @@ list_node * RSA::Decrypt(list_node *cipher, list_node **plain_text)
     temp = NULL;
     list_node *dummy;
     dummy = NULL;
-    cout<<"rsa:Cipher";
-    printListNumber(cipher);
     exp(cipher,d,&temp);
     divideList(temp,n,&dummy,&plain);
     *plain_text = plain;
-    //cout<<"Plain";
-    //printListNumber(plain);
-
+    return ESUCCESS;
 }

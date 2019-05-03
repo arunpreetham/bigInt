@@ -26,7 +26,7 @@ int compareRevIntList(list_node *operand1, list_node *operand2)
 {
     int list_len1 = 0, list_len2 = 0, null_node1 = 0,null_node2 = 0;
     list_node *temp1 = operand1, *temp2 = operand2;
-    cout<<__func__ <<":enter"<<endl;
+    //cout<<__func__ <<":enter"<<endl;
     //Last node is the 10^n value so if the lists are of equal length then compare the last node.
     //error case
     if(NULL == operand1 || NULL == operand2)
@@ -42,10 +42,7 @@ int compareRevIntList(list_node *operand1, list_node *operand2)
     temp2= NULL;
 
     //We need to remove the last zeros.
-    cout<<__func__ <<"list_len1:"<<list_len1<<" list_len2:"<<list_len2<<endl;
-
-    //printListNumber(operand1);
-    //printListNumber(operand2);
+    //cout<<__func__ <<"list_len1:"<<list_len1<<" list_len2:"<<list_len2<<endl;
 
     if(list_len1 == list_len2)
     {
@@ -72,7 +69,7 @@ int compareRevIntList(list_node *operand1, list_node *operand2)
     {
         return 2;
     }
-    cout<<__func__ <<":exit"<<endl;    
+    //cout<<__func__ <<":exit"<<endl;    
     return 0;
 }
 
@@ -92,9 +89,6 @@ int compareIntList(list_node *operand1, list_node *operand2)
     list_len2 = listLen(temp2);
 
     //We need to remove the last zeros.
-    //cout<<__func__ <<"list_len1:"<<"\t"<<list_len1<<" list_len2:"<<list_len2<<endl;
-    //printListNumber(operand1);
-    //printListNumber(operand2);
 
     if(list_len1 == list_len2)
     {
@@ -120,7 +114,7 @@ int compareIntList(list_node *operand1, list_node *operand2)
     {
         return -1;
     }
-    cout<<__func__ <<":exit"<<endl;    
+    //cout<<__func__ <<":exit"<<endl;    
     return -99999;
 }
 
@@ -128,9 +122,7 @@ int findBigSmall(list_node **Big, list_node **Small,list_node *operand1, list_no
 {
 
     int compare_op = compareIntList(operand1,operand2);
-    printListNumber(operand1);
-    printListNumber(operand2);
-    cout<<__func__ <<"Compare_op:::"<<compare_op<<endl;
+    //cout<<__func__ <<"Compare_op:::"<<compare_op<<endl;
     //First we need to find the largest number and then sub it with the smallest. 
     if(compare_op >= 0)
     {
@@ -199,7 +191,6 @@ int addList(list_node *operand1, list_node *operand2, list_node **result)
         operand2 = operand2->prev;  
         }  
     }
-    //printListNumber(*result);
     //New node is required.
     if(0!=carry)
     {
@@ -207,7 +198,6 @@ int addList(list_node *operand1, list_node *operand2, list_node **result)
         sum->data = carry;
         addAtStart(result,sum);
     }
-    //printListNumber(*result);
 
     return ESUCCESS;
 }
@@ -269,8 +259,6 @@ int subList(list_node *operand1, list_node *operand2, list_node **result)
         Big = Big->prev; 
         addAtStart(result,sub);
     }
-    //cout<<__func__ <<"Before Print"<<endl;
-    printListNumber(*result);
    
     stripFromStart(result);
     list_node *zero;
@@ -341,7 +329,6 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
 
             sum = sum->prev;
         }
-        //printListNumber(*result);
         Small = Small->prev;
         Big = Big_temp;    
         sum = findTail(*result);;
@@ -350,7 +337,6 @@ int multiplyList(list_node *operand1, list_node *operand2, list_node **result)
 
     //We need to add at the next place.
     stripFromStart(result);
-    //printListNumber(*result);
     return ESUCCESS;
 }
 
@@ -358,55 +344,42 @@ int divideList(list_node *operand1c, list_node *operand2c, list_node **quotient,
 {
     int compare_op = 0;
     list_node *sum=NULL,*result_temp = NULL, *temp_result = NULL, *temp_operand1 = NULL,*operand1 =NULL, *operand2 = NULL;
-    cout<<__func__<<":Entry"<<endl;
-    cout<<"AllotMemSum"<<endl;
+    //cout<<__func__<<":Entry"<<endl;
+    //cout<<"AllotMemSum"<<endl;
 
     allocMemForNode(&sum);
     sum->data = 0;
     addAtStart(quotient,sum);
-    cout<<"Creating copies of operands"<<endl;
-    cout<<"Operand1"<<endl;
+    //cout<<"Creating copies of operands"<<endl;
+    //cout<<"Operand1"<<endl;
     dupList(operand1c, &operand1);
-    cout<<"Operand2"<<endl;
+    //cout<<"Operand2"<<endl;
     dupList(operand2c, &operand2);
 
     list_node *temp_1;
     allocMemForNode(&temp_1);
     temp_1->data = 1;
-    cout<<"Entering the while loop";
     while(compareIntList(operand1,operand2) >=0)
     {
-        cout<<"compare_loop_enter"<<endl;
+        //cout<<"compare_loop_enter"<<endl;
         temp_operand1 = NULL;
         subList(operand1,operand2,&temp_operand1);
         deleteList(&operand1);
         operand1 = temp_operand1;
 
-        cout<<"Operand1:"<<endl;
-        printListNumber(operand1);
-        
-        //cout<<"Quotient:"<<endl;
-        //printListNumber(*quotient);
         temp_result = NULL;
         //deleteList(&temp_result);
         addList(*quotient,temp_1,&temp_result);
         
-        cout<<"Temp1:"<<endl;
-        printListNumber(temp_1);
 
         //deleteList(quotient);
         stripFromStart(&temp_result);
 
         *quotient = temp_result;
         //dupList(temp_result, quotient);
-        cout<<"Quotient:"<<endl;
-        printListNumber(*quotient);
-        cout<<"compare_loop_exit"<<endl;
+        //cout<<"compare_loop_exit"<<endl;
     }
-    cout<< "this "<<endl;
     dupList(operand1, reminder);
-    cout<<"Operand1:"<<endl;
-    printList(operand1);
     return ESUCCESS;
 }
 
@@ -445,10 +418,6 @@ int exp(list_node *base, list_node* exp, list_node **result){
     list_node *zero = listFromString("0");
     list_node *temp;
     temp = NULL;
-    printListNumber(zero);
-    printListNumber(one);
-    printListNumber(base);
-    printListNumber(exp);
 
     if(compareIntList(exp, one)==0)
         {
@@ -460,21 +429,13 @@ int exp(list_node *base, list_node* exp, list_node **result){
             dupList(one, result);
             return 0;
     }
-    cout<<"Did not returned"<<endl;
     dupList(base, result);
-    //printListNumber(*result);
     while(compareIntList(exp, one)>0){
-        cout<<"while iteration:"<<endl;
         allocMemForNode(&temp);
-        cout<<"Current result";
-        printListNumber(*result);
         multiplyList(base, *result, &temp);
-        //cout<<"new temp";
-        //printListNumber(temp);
         *result = NULL;
         //allocMemForNode(&temp);
         dupList(temp, result);
-        //printListNumber(*result);
         temp = NULL;
         subList(exp, one, &temp);
         exp=NULL;

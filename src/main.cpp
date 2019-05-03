@@ -16,7 +16,7 @@ int convert_ascii_to_digit(char digit)
 
 int main()
 {
-    /*
+    
     std::ifstream fin1,fin2;
     std::ofstream fout;
     char digit_c;
@@ -99,8 +99,6 @@ int main()
         }
         deleteList(&result);
 
-        printListNumber(input1);
-        printListNumber(input2);
         //Substract
         subList(input1,input2, &result);
         fout<<"Substract Result: "<<endl;
@@ -114,9 +112,6 @@ int main()
             fout<<endl;
         }
         deleteList(&result);
-        printListNumber(input1);
-        printListNumber(input2);
-        cout<<"Input before multiply";
         //multiplyList
         multiplyList(input1,input2, &result);
 
@@ -161,20 +156,15 @@ int main()
 
     fout.close();
     fin1.close();
-    fin2.close(); 
-    //End main driver code
+    fin2.close();     
     
-    */
-    /*
     //BBS Driver Code
-
+    /*
     list_node *p, *q, *d=NULL, *r=NULL;
     listFromString("55", &p);
     listFromString("5", &q);
     cout<<"this is test:"<<endl;
     divideList(p, q, &d, &r);
-    printListNumber(d);
-    printListNumber(r);
     list_node *p, *q, *seed, *prod, *result1=NULL;
     p = listFromString("11");
     q = listFromString("19");
@@ -189,29 +179,6 @@ int main()
     }
     */
 
-    /*
-    //GCD Driver Code
-    list_node *r1, *p, *q;
-    p = listFromString("550");
-    q = listFromString("50");
-
-    cout<<"Compute GCD"<<endl;
-    gcd(p, q, &r1);
-    cout <<"GCD"<<endl;
-    printListNumber(r1);
-    
-    */ 
-   /*
-   // exp driver code
-
-    list_node *p, *q,*r,*s;
-    p = listFromString("12");
-    q = listFromString("7");
-    exp(p,q,&r);
-    printListNumber(r);
-    */
-     
-   //RSA driver code
     list_node *p, *q,*mp, *mc, *mpr,*t;
     mc = NULL;
     mpr = NULL;
@@ -219,18 +186,15 @@ int main()
     allocMemForNode(&mpr);
     p = listFromString("3");
     q = listFromString("7");
-    mp = listFromString("12");
-    t = listFromString("62");
+    mp = listFromString("11");
     RSA rsa_algo(p,q);
-    cout<<"rsa:Encrypting"<<endl;
     rsa_algo.Encrypt(mp, &mc);
-    cout<<"rsa:Original Message";
+    cout<<"rsa:Original Message: ";
     printListNumber(mp);
-    cout<<"rsa:Cipher";
+    cout<<"rsa:Cipher: ";
     printListNumber(mc);
-    cout<<"rsa:Decrypting"<<endl;
     rsa_algo.Decrypt(mc, &mpr);
-    cout<<"rsa:Recovered Plain Message";
+    cout<<"rsa:Recovered Plain Message: ";
     printListNumber(mpr);
     return ESUCCESS;
 }

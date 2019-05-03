@@ -26,7 +26,7 @@ int removeFromStart( list_node **head, list_node **data );
 int ReverseList(list_node **head);
 int dupList(list_node *source,list_node **copy);
 list_node* findTail(list_node *head);
-list_node* listFromString(char *s);
+list_node* listFromString(char *);
 void printListNumber(list_node *head);
 int convert_ascii_to_digit(char c);
 int findBigSmall(list_node **Big, list_node **Small,list_node *operand1, list_node *operand2 );
